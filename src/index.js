@@ -1,9 +1,9 @@
-import Checker from './Checker'
+const Checker = require('./Checker');
 
-export default function tpc(callback, options={}) {
+module.exports = (callback, options={}) => {
   if (!callback) {
-    throw new Error('Please provide callback')
+    throw new Error('Please provide callback');
   }
 
-  return new Checker(callback, options).execute()
+  return new Checker(callback, options).execute();
 }
