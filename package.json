@@ -1,12 +1,12 @@
 {
   "name": "tpc-check",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Check if third-party cookies are enabled",
   "main": "src/index.js",
   "author": {
-    "name": "Dimitar Valchanov",
-    "email": "cerrutito@gmail.com",
-    "url": "https://github.com/dvalchanov"
+    "name": "Will Bryant",
+    "email": "william@tout.com",
+    "url": "https://github.com/Tout"
   },
   "license": "MIT",
   "scripts": {
