@@ -1,14 +1,10 @@
 {
   "name": "tpc-check",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Check if third-party cookies are enabled",
-  "main": "lib/index.js",
-  "author": {
-    "name": "Dimitar Valchanov",
-    "email": "cerrutito@gmail.com",
-    "url": "https://github.com/dvalchanov"
-  },
-  "license": "MIT",
+  "main": "src/index.js",
+  "author": "Tout",
+  "private": true,
   "scripts": {
     "build": "babel src --out-dir lib",
     "prepublish": "npm run build",

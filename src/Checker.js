@@ -1,16 +1,18 @@
-import { addScript, removeScript } from './utils'
+const { addScript, removeScript } = require('./utils');
 
-const BASE_URL = 'https://2plexv84m5.execute-api.us-east-1.amazonaws.com/prod'
-const SET_COOKIE_URL = `${BASE_URL}/set-third-party-cookie.js`
-const GET_COOKIE_URL = `${BASE_URL}/get-third-party-cookie.js`
+const BASE_URL = 'https://2plexv84m5.execute-api.us-east-1.amazonaws.com/prod';
+const DEFAULT_SET_COOKIE_URL = `${BASE_URL}/set-third-party-cookie.js`;
+const DEFAULT_GET_COOKIE_URL = `${BASE_URL}/get-third-party-cookie.js`;
 
-export default class Checker {
-  constructor(callback) {
-    this.callback = callback
+module.exports = class Checker {
+  constructor(callback, options={}) {
+    this.setCookieUrl = options.setCookieUrl || DEFAULT_SET_COOKIE_URL;
+    this.getCookieUrl = options.getCookieUrl || DEFAULT_GET_COOKIE_URL;
+    this.callback = callback;
     this.scripts = {
       load: null,
       trigger: null
-    }
+    };
   }
 
   /**
@@ -19,10 +21,10 @@ export default class Checker {
    */
   listenTrigger() {
     window.triggerTPCCallback = enabled => {
-      removeScript(this.scripts.trigger)
-      this.callback(enabled)
-      window.triggerTPCCallback = undefined
-    }
+      removeScript(this.scripts.trigger);
+      this.callback(enabled);
+      window.triggerTPCCallback = undefined;
+    };
   }
 
   /**
@@ -30,8 +32,8 @@ export default class Checker {
    * and initialize a script request that will call it when done.
    */
   initializeTrigger() {
-    this.listenTrigger()
-    this.scripts.trigger = addScript(GET_COOKIE_URL)
+    this.listenTrigger();
+    this.scripts.trigger = addScript(this.getCookieUrl);
   }
 
   /**
@@ -40,10 +42,10 @@ export default class Checker {
    */
   listenLoad() {
     window.loadTPCScript = () => {
-      removeScript(this.scripts.load)
-      this.initializeTrigger()
-      window.loadTPCScript = undefined
-    }
+      removeScript(this.scripts.load);
+      this.initializeTrigger();
+      window.loadTPCScript = undefined;
+    };
   }
 
   /**
@@ -51,14 +53,14 @@ export default class Checker {
    * and initialize a script request that will call it when done.
    */
   initializeLoad() {
-    this.listenLoad()
-    this.scripts.load = addScript(SET_COOKIE_URL)
+    this.listenLoad();
+    this.scripts.load = addScript(this.setCookieUrl);
   }
 
   /**
    * Initialize check.
    */
   execute() {
-    this.initializeLoad()
+    this.initializeLoad();
   }
-}
+};
